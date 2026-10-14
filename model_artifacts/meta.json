@@ -1,0 +1,978 @@
+{
+ "agences": [
+  "CEC/PLATEAU",
+  "CEC_B",
+  "MECREST",
+  "MECYD",
+  "MECZOR"
+ ],
+ "secteurs": [
+  "COMMERCE",
+  "CONSTRUCTION",
+  "CONSOMMATION",
+  "AGRICULTURE, ELEVAGE, CHASSE ET SYLVICULTURE",
+  "AUTRES ACTIVITES",
+  "PECHE, PISCICULTURE, AQUACULTURE",
+  "TRANSPORT, ACTIVITES AUXILIAIRES ET COMMUNICATIONS",
+  "REPARATION DE VEHICULE AUTOM ET D'ARTICLE DOMESTIQUE",
+  "ACTIVITES DE FABRICATION",
+  "EDUCATION, ARTS ET CULTURE",
+  "HOTELS, RESTAURANTS ET TOURISME",
+  "IMMOBILIER, LOCATIONS ET SERVICES AUX ENTREPRISES",
+  "ACTIVITES DE SANTE ET D'ACTION SOCIALE",
+  "ACTIVITES A CARACTERE COLLECTIF OU PERSONNEL",
+  "PRODUCTION ET DISTRIBUTION D'ELECTRICITE, DE GAZ, ET D'EAU",
+  "ACTIVITES FINANCIERES"
+ ],
+ "types_credit": [
+  {
+   "libelle": "CRÉDITS TRESORERIE FEMME AFSSEF  CT DE + DE 6 À 12 MOIS AU +",
+   "famille": "TRESORERIE",
+   "n": 6913
+  },
+  {
+   "libelle": "CRÉDITS TRESO MICRO ENTREPRENEUR CT DE + DE 6 À 12 MOIS AU +",
+   "famille": "TRESORERIE",
+   "n": 2164
+  },
+  {
+   "libelle": "Crédit entente PAM/DER A MT DE+1 AN A 2 AN AU +",
+   "famille": "ENTENTE PAM/DER",
+   "n": 771
+  },
+  {
+   "libelle": "Parcours Rabo Crédit Trésorerie CT 6 à 12 mois +",
+   "famille": "TRESORERIE",
+   "n": 745
+  },
+  {
+   "libelle": "CREDITS PERSONNEL A MT DE+1 AN A 2 AN AU +",
+   "famille": "PERSONNEL",
+   "n": 640
+  },
+  {
+   "libelle": "CRÉDITS TRESORERIE GRPE AFSSEF  CT DE + DE 6 À 12 MOIS AU +",
+   "famille": "TRESORERIE",
+   "n": 538
+  },
+  {
+   "libelle": "CREDITS PERSONNEL A LT DE + 3 ANS A 10 ANS AU +",
+   "famille": "PERSONNEL",
+   "n": 478
+  },
+  {
+   "libelle": "CRÉDITS CONSOMMATION  CT DE + DE 6 À 12 MOIS AU +",
+   "famille": "CONSOMMATION",
+   "n": 455
+  },
+  {
+   "libelle": "CREDITS COMMERCIAL A MT DE+1 AN A 2 AN AU +",
+   "famille": "COMMERCIAL",
+   "n": 397
+  },
+  {
+   "libelle": "CREDITS PERSONNEL A MT DE+2 ANS A 3 ANS AU +",
+   "famille": "PERSONNEL",
+   "n": 342
+  },
+  {
+   "libelle": "Crédit entente PAM/DER DE + DE 6 MOIS À 12 MOIS AU +",
+   "famille": "ENTENTE PAM/DER",
+   "n": 182
+  },
+  {
+   "libelle": "CREDITS HABITAT SALARIE A LT DE + 3 ANS A 10 ANS AU +",
+   "famille": "HABITAT",
+   "n": 179
+  },
+  {
+   "libelle": "Crédit Tréso Camp agri infine de 6 à 12 mois au+",
+   "famille": "TRESORERIE",
+   "n": 174
+  },
+  {
+   "libelle": "CRÉDITS PERSONNEL CT DE + DE 6 MOIS À 12 MOIS AU +",
+   "famille": "PERSONNEL",
+   "n": 164
+  },
+  {
+   "libelle": "CREDITS CFE A MT DE+1 ANS A 2 ANS AU +",
+   "famille": "AUTRE",
+   "n": 143
+  },
+  {
+   "libelle": "CRÉDITS TRESORERIE CFE  CT DE + DE 6 À 12 MOIS AU +",
+   "famille": "TRESORERIE",
+   "n": 117
+  },
+  {
+   "libelle": "CREDITS AFSSEF A MT DE+1 ANS A 2 ANS AU +",
+   "famille": "AUTRE",
+   "n": 82
+  },
+  {
+   "libelle": "CREDITS CFE A MT DE+2 ANS A 3 ANS AU +",
+   "famille": "AUTRE",
+   "n": 56
+  },
+  {
+   "libelle": "Crédit entente PAM/DER A MT DE+2 ANS A 3 ANS AU +",
+   "famille": "ENTENTE PAM/DER",
+   "n": 56
+  },
+  {
+   "libelle": "Crédit Tréso entente PAM_FONGIP_PAFEJ + 6  À 12 mois",
+   "famille": "ENTENTE PAM/DER",
+   "n": 54
+  },
+  {
+   "libelle": "Crédit Tréso entente PAM_FONGIP_ETER + 6  À 12 mois",
+   "famille": "ENTENTE PAM/DER",
+   "n": 50
+  },
+  {
+   "libelle": "Crédit Tréso CT Tontine Digitale DE + DE 6 À 12 MOIS AU +",
+   "famille": "TRESORERIE",
+   "n": 48
+  },
+  {
+   "libelle": "Parcours Rabo Crédit Consommation CT 6 à 12 mois +",
+   "famille": "CONSOMMATION",
+   "n": 48
+  },
+  {
+   "libelle": "CREDITS COMMERCIAL A MT DE+2 ANS A 3 ANS AU +",
+   "famille": "COMMERCIAL",
+   "n": 41
+  },
+  {
+   "libelle": "CREDITS HABITAT NON SALARIE A MT DE+2 ANS A 3 ANS AU +",
+   "famille": "HABITAT",
+   "n": 36
+  },
+  {
+   "libelle": "Crédit entente PAM/DER A LT DE + 3 ANS A 10 ANS AU +",
+   "famille": "ENTENTE PAM/DER",
+   "n": 31
+  },
+  {
+   "libelle": "CREDITS HABITAT NON SALARIE A LT DE + 3 ANS A 10 ANS AU +",
+   "famille": "HABITAT",
+   "n": 24
+  },
+  {
+   "libelle": "CREDITS CFE A LT DE + 3 ANS A 10 ANS AU +",
+   "famille": "AUTRE",
+   "n": 18
+  },
+  {
+   "libelle": "CREDITS HABITAT SALARIE A MT DE+2 ANS A 3 ANS AU +",
+   "famille": "HABITAT",
+   "n": 18
+  },
+  {
+   "libelle": "CREDITS HABITAT NON SALARIE A MT DE+1 ANS A 2 ANS AU +",
+   "famille": "HABITAT",
+   "n": 17
+  },
+  {
+   "libelle": "Crédit Tréso Embouche infine de 6 à 12 mois au+",
+   "famille": "TRESORERIE",
+   "n": 14
+  },
+  {
+   "libelle": "CRÉDITS COMMERCIAL CT DE + DE 6 MOIS À 12 MOIS AU +",
+   "famille": "COMMERCIAL",
+   "n": 12
+  },
+  {
+   "libelle": "CRÉDITS CONSO SALARIES ET PENS A LT DE + 3 ANS A 10 ANS AU +",
+   "famille": "AUTRE",
+   "n": 11
+  },
+  {
+   "libelle": "CREDITS FIDELITE EQUIPEMENT A LT DE + 3 ANS A 10 ANS AU +",
+   "famille": "EQUIPEMENT",
+   "n": 11
+  },
+  {
+   "libelle": "Crédit Tréso entente PAM_FONGIP_ETER 0  À  6 mois",
+   "famille": "ENTENTE PAM/DER",
+   "n": 10
+  },
+  {
+   "libelle": "CRÉDITS CAMPAGNE CT DE + DE 6 MOIS À 12 MOIS AU +",
+   "famille": "AUTRE",
+   "n": 9
+  },
+  {
+   "libelle": "Crédit Equip entente PAM_FONGIP_ETER + 6  À 12 mois",
+   "famille": "ENTENTE PAM/DER",
+   "n": 9
+  },
+  {
+   "libelle": "CREDITS SYNDIQUE A LT DE + 3 ANS A 10 ANS AU +",
+   "famille": "AUTRE",
+   "n": 7
+  },
+  {
+   "libelle": "CRÉDITS TRESORERIE FEMME AFSSEF CT DE 0 À 6 MOIS AU +",
+   "famille": "TRESORERIE",
+   "n": 7
+  },
+  {
+   "libelle": "CREDITS COMMERCIAL A LT DE + 3 ANS A 10 ANS AU +",
+   "famille": "COMMERCIAL",
+   "n": 6
+  },
+  {
+   "libelle": "CRÉDITS CFE CT DE + DE 6 MOIS À 12 MOIS AU +",
+   "famille": "AUTRE",
+   "n": 6
+  },
+  {
+   "libelle": "CRÉDITS CONSO SALARIES ET PENS A MT DE+2 ANS A 3 ANS AU +",
+   "famille": "AUTRE",
+   "n": 6
+  },
+  {
+   "libelle": "CRÉDITS CONSOMMATION CT DE 0 À 6 MOIS AU +",
+   "famille": "CONSOMMATION",
+   "n": 5
+  },
+  {
+   "libelle": "Crédit Equipement PAM_IBRIZ MT + 2  À  3 ans",
+   "famille": "EQUIPEMENT",
+   "n": 5
+  },
+  {
+   "libelle": "Crédit Equip entente PAM_FONGIP_ETER 0  À  6 mois",
+   "famille": "ENTENTE PAM/DER",
+   "n": 5
+  },
+  {
+   "libelle": "Crédit Tréso CT Tontine Digitale DE 0 À 6 MOIS AU +",
+   "famille": "TRESORERIE",
+   "n": 5
+  },
+  {
+   "libelle": " Crédit Tréso entente PAM_FONGIP_PAFEJ + 1 À  2 ans",
+   "famille": "ENTENTE PAM/DER",
+   "n": 4
+  },
+  {
+   "libelle": "CRÉDITS TRESORERIE CFE CT DE 0 À 6 MOIS AU +",
+   "famille": "TRESORERIE",
+   "n": 4
+  },
+  {
+   "libelle": "COM INFINE CT DE + DE 6 MOIS À 12 MOIS AU +",
+   "famille": "AUTRE",
+   "n": 4
+  },
+  {
+   "libelle": "CREDITS AFSSEF A LT DE + 3 ANS A 10 ANS AU +",
+   "famille": "AUTRE",
+   "n": 3
+  },
+  {
+   "libelle": "Crédit FOGALOG A LT DE + 3 A 10 ANS AU +",
+   "famille": "AUTRE",
+   "n": 3
+  },
+  {
+   "libelle": "CREDIT INVESTISSEMENT A MT DE+1 AN A 2 AN AU +",
+   "famille": "AUTRE",
+   "n": 3
+  },
+  {
+   "libelle": "Crédit Equip entente PAM_FONGIP_ETER + 2  À  3 ans",
+   "famille": "ENTENTE PAM/DER",
+   "n": 3
+  },
+  {
+   "libelle": "CREDITS AFSSEF A MT DE+2 ANS A 3 ANS AU +",
+   "famille": "AUTRE",
+   "n": 3
+  },
+  {
+   "libelle": "CREDITS HABITAT SALARIE A MT DE+1 ANS A 2 ANS AU +",
+   "famille": "HABITAT",
+   "n": 3
+  },
+  {
+   "libelle": "CRÉDITS OP HABITATS SALARIES A LT DE + 3 ANS A 10 ANS AU +",
+   "famille": "HABITAT",
+   "n": 3
+  },
+  {
+   "libelle": "Crédit Tréso entente PAM_FONGIP_ETER + 2  À  3 ans",
+   "famille": "ENTENTE PAM/DER",
+   "n": 3
+  },
+  {
+   "libelle": "Crédit Equipmt Campagne-Agri E4Y MT +2 à 3 ANS +",
+   "famille": "AUTRE",
+   "n": 2
+  },
+  {
+   "libelle": "CRÉDITS TRESORERIE MICRO ENTREPRENEUR CT DE 0 À 6 MOIS AU +",
+   "famille": "TRESORERIE",
+   "n": 2
+  },
+  {
+   "libelle": "CRÉDITS PERSONNEL CT DE 0 À 6 MOIS AU +",
+   "famille": "PERSONNEL",
+   "n": 2
+  },
+  {
+   "libelle": " Crédit Equip entente PAM_FONGIP_PAFEJ + 1 À  2 ans",
+   "famille": "ENTENTE PAM/DER",
+   "n": 2
+  },
+  {
+   "libelle": "CRÉDITS CONSO SALARIES ET PENS A MT DE+1 AN A 2 AN AU +",
+   "famille": "AUTRE",
+   "n": 2
+  },
+  {
+   "libelle": "Crédit réechelonné cfe de 1 à 2 ans au plus",
+   "famille": "AUTRE",
+   "n": 2
+  },
+  {
+   "libelle": "CRÉDITS AFSSEF CT DE + DE 6 MOIS À 12 MOIS AU +",
+   "famille": "AUTRE",
+   "n": 2
+  },
+  {
+   "libelle": "Crédit Tréso CT Avance Tontine  DE 0 À 6 MOIS AU +",
+   "famille": "TRESORERIE",
+   "n": 2
+  },
+  {
+   "libelle": "PERS INFINE CT DE + DE 6 MOIS À 12 MOIS AU +",
+   "famille": "AUTRE",
+   "n": 2
+  },
+  {
+   "libelle": "Crédit Tréso Transformat° Pdts-Agri E4Y CT 6 à 12 mois +",
+   "famille": "TRESORERIE",
+   "n": 1
+  },
+  {
+   "libelle": " Crédit Equip entente PAM_FONGIP_ETER + 1 À  2 ans",
+   "famille": "ENTENTE PAM/DER",
+   "n": 1
+  },
+  {
+   "libelle": "Crédit Tréso Camp agri infine de 0 à 6 mois au+",
+   "famille": "TRESORERIE",
+   "n": 1
+  },
+  {
+   "libelle": "CRÉDITS EQUIPEMENT  CT DE + DE 6 À 12 MOIS AU +",
+   "famille": "EQUIPEMENT",
+   "n": 1
+  },
+  {
+   "libelle": "Crédit Tréso Embouche infine de 0 à 6 mois au+",
+   "famille": "TRESORERIE",
+   "n": 1
+  },
+  {
+   "libelle": "Crédit Equipmt Transformat° Pdts-Agri E4Y LT +3 à 5 ans +",
+   "famille": "AUTRE",
+   "n": 1
+  },
+  {
+   "libelle": "Crédit Equipement PAM_IBRIZ  CT 6 à 12 mois +",
+   "famille": "EQUIPEMENT",
+   "n": 1
+  },
+  {
+   "libelle": "crédits immob Report d’échéances COVID-19 redevenus sain",
+   "famille": "AUTRE",
+   "n": 1
+  },
+  {
+   "libelle": "Crédit réechelonné HNS de 2 à 3 ans au plus",
+   "famille": "AUTRE",
+   "n": 1
+  },
+  {
+   "libelle": "Crédit Equip entente PAM_FONGIP_PAFEJ 0  À  6 mois",
+   "famille": "ENTENTE PAM/DER",
+   "n": 1
+  },
+  {
+   "libelle": "CRÉDITS TRESORERIE GRPE AFSSEF CT DE 0 À 6 MOIS AU +",
+   "famille": "TRESORERIE",
+   "n": 1
+  },
+  {
+   "libelle": "CRÉDITS AUX JEUNES CT DE 0 À 6 MOIS AU +",
+   "famille": "AUTRE",
+   "n": 1
+  },
+  {
+   "libelle": "Crédit cons CT « entente PAM_KABIREX + 6  À 12 mois",
+   "famille": "ENTENTE PAM/DER",
+   "n": 1
+  },
+  {
+   "libelle": "Crédit FOGALOG A LT DE + DE 10 ANS",
+   "famille": "AUTRE",
+   "n": 1
+  },
+  {
+   "libelle": "Dolel JIGEEN NYI CT DE + DE 6 À 12 MOIS AU +",
+   "famille": "AUTRE",
+   "n": 1
+  },
+  {
+   "libelle": "Crédit réechelonné pers de 3 à 10 ans au plus",
+   "famille": "AUTRE",
+   "n": 1
+  },
+  {
+   "libelle": "CRÉDITS SYNDIQUE CT DE + DE 6 MOIS À 12 MOIS AU +",
+   "famille": "AUTRE",
+   "n": 1
+  },
+  {
+   "libelle": "Parcours Rabo Crédit Consommation CT 0 à 6 mois +",
+   "famille": "CONSOMMATION",
+   "n": 1
+  },
+  {
+   "libelle": "CREDITS SYNDIQUE A MT DE+2 ANS A 3 ANS AU +",
+   "famille": "AUTRE",
+   "n": 1
+  },
+  {
+   "libelle": "Crédit Tréso entente PAM_FONGIP_PAAICE + 6  À 12 mois",
+   "famille": "ENTENTE PAM/DER",
+   "n": 1
+  },
+  {
+   "libelle": "Crédit réechelonné cfe de 3 à 10 ans au plus",
+   "famille": "AUTRE",
+   "n": 1
+  },
+  {
+   "libelle": "Créd de tréso  Facilité de caisse FCC 19 de 0 à 6 mois au+",
+   "famille": "TRESORERIE",
+   "n": 1
+  },
+  {
+   "libelle": "CREDITS SYNDIQUE A MT DE+1 ANS A 2 ANS AU +",
+   "famille": "AUTRE",
+   "n": 1
+  },
+  {
+   "libelle": "Parcours Rabo Crédit Equipement CT 0 à 6 mois +",
+   "famille": "EQUIPEMENT",
+   "n": 1
+  },
+  {
+   "libelle": "Crédit Equipmt E4Y_AVANCE  CT 6 à 12 mois +",
+   "famille": "AUTRE",
+   "n": 1
+  }
+ ],
+ "seuil": 0.36,
+ "taux_global": 0.1354,
+ "reperes": {
+  "agence": {
+   "MECZOR": {
+    "taux": 0.9097,
+    "n": 144
+   },
+   "MECREST": {
+    "taux": 0.2144,
+    "n": 2645
+   },
+   "CEC/PLATEAU": {
+    "taux": 0.1582,
+    "n": 4019
+   },
+   "MECYD": {
+    "taux": 0.0902,
+    "n": 2992
+   },
+   "CEC_B": {
+    "taux": 0.0839,
+    "n": 5388
+   }
+  },
+  "secteur": {
+   "ACTIVITES FINANCIERES": {
+    "taux": 1.0,
+    "n": 1
+   },
+   "AUTRES ACTIVITES": {
+    "taux": 0.7158,
+    "n": 285
+   },
+   "PRODUCTION ET DISTRIBUTION D'ELECTRICITE, DE GAZ, ET D'EAU": {
+    "taux": 0.5,
+    "n": 2
+   },
+   "IMMOBILIER, LOCATIONS ET SERVICES AUX ENTREPRISES": {
+    "taux": 0.3846,
+    "n": 13
+   },
+   "ACTIVITES A CARACTERE COLLECTIF OU PERSONNEL": {
+    "taux": 0.3333,
+    "n": 3
+   },
+   "ACTIVITES DE FABRICATION": {
+    "taux": 0.25,
+    "n": 36
+   },
+   "AGRICULTURE, ELEVAGE, CHASSE ET SYLVICULTURE": {
+    "taux": 0.209,
+    "n": 469
+   },
+   "PECHE, PISCICULTURE, AQUACULTURE": {
+    "taux": 0.1991,
+    "n": 216
+   },
+   "COMMERCE": {
+    "taux": 0.1371,
+    "n": 11416
+   },
+   "HOTELS, RESTAURANTS ET TOURISME": {
+    "taux": 0.1333,
+    "n": 15
+   },
+   "EDUCATION, ARTS ET CULTURE": {
+    "taux": 0.1111,
+    "n": 18
+   },
+   "TRANSPORT, ACTIVITES AUXILIAIRES ET COMMUNICATIONS": {
+    "taux": 0.1005,
+    "n": 209
+   },
+   "CONSTRUCTION": {
+    "taux": 0.0535,
+    "n": 1234
+   },
+   "CONSOMMATION": {
+    "taux": 0.0301,
+    "n": 1230
+   },
+   "REPARATION DE VEHICULE AUTOM ET D'ARTICLE DOMESTIQUE": {
+    "taux": 0.0263,
+    "n": 38
+   },
+   "ACTIVITES DE SANTE ET D'ACTION SOCIALE": {
+    "taux": 0.0,
+    "n": 3
+   }
+  },
+  "type_credit": {
+   "CREDIT ENTENTE PAM/DER DE + DE 6 MOIS A 12 MOIS AU +": {
+    "taux": 1.0,
+    "n": 182
+   },
+   "CREDIT ENTENTE PAM/DER A MT DE+2 ANS A 3 ANS AU +": {
+    "taux": 1.0,
+    "n": 56
+   },
+   "CREDIT REECHELONNE PERS DE 3 A 10 ANS AU PLUS": {
+    "taux": 1.0,
+    "n": 1
+   },
+   "CREDITS TRESORERIE MICRO ENTREPRENEUR CT DE 0 A 6 MOIS AU +": {
+    "taux": 1.0,
+    "n": 2
+   },
+   "DOLEL JIGEEN NYI CT DE + DE 6 A 12 MOIS AU +": {
+    "taux": 1.0,
+    "n": 1
+   },
+   "PARCOURS RABO CREDIT CONSOMMATION CT 0 A 6 MOIS +": {
+    "taux": 1.0,
+    "n": 1
+   },
+   "CREDITS SYNDIQUE A MT DE+2 ANS A 3 ANS AU +": {
+    "taux": 1.0,
+    "n": 1
+   },
+   "CREDIT TRESO TRANSFORMAT PDTS-AGRI E4Y CT 6 A 12 MOIS +": {
+    "taux": 1.0,
+    "n": 1
+   },
+   "CREDITS AFSSEF CT DE + DE 6 MOIS A 12 MOIS AU +": {
+    "taux": 1.0,
+    "n": 2
+   },
+   "CREDIT ENTENTE PAM/DER A MT DE+1 AN A 2 AN AU +": {
+    "taux": 0.9974,
+    "n": 771
+   },
+   "CREDIT ENTENTE PAM/DER A LT DE + 3 ANS A 10 ANS AU +": {
+    "taux": 0.9032,
+    "n": 31
+   },
+   "CREDIT EQUIPMT CAMPAGNE-AGRI E4Y MT +2 A 3 ANS +": {
+    "taux": 0.5,
+    "n": 2
+   },
+   "CREDIT TRESO CT AVANCE TONTINE DE 0 A 6 MOIS AU +": {
+    "taux": 0.5,
+    "n": 2
+   },
+   "CREDIT REECHELONNE CFE DE 1 A 2 ANS AU PLUS": {
+    "taux": 0.5,
+    "n": 2
+   },
+   "CREDITS CFE CT DE + DE 6 MOIS A 12 MOIS AU +": {
+    "taux": 0.3333,
+    "n": 6
+   },
+   "CREDIT EQUIP ENTENTE PAM_FONGIP_ETER + 2 A 3 ANS": {
+    "taux": 0.3333,
+    "n": 3
+   },
+   "PARCOURS RABO CREDIT TRESORERIE CT 6 A 12 MOIS +": {
+    "taux": 0.2322,
+    "n": 745
+   },
+   "CREDITS CONSOMMATION CT DE 0 A 6 MOIS AU +": {
+    "taux": 0.2,
+    "n": 5
+   },
+   "CREDIT EQUIPEMENT PAM_IBRIZ MT + 2 A 3 ANS": {
+    "taux": 0.2,
+    "n": 5
+   },
+   "CREDITS TRESORERIE GRPE AFSSEF CT DE + DE 6 A 12 MOIS AU +": {
+    "taux": 0.1729,
+    "n": 538
+   },
+   "CREDITS COMMERCIAL A LT DE + 3 ANS A 10 ANS AU +": {
+    "taux": 0.1667,
+    "n": 6
+   },
+   "CREDITS AFSSEF A MT DE+1 ANS A 2 ANS AU +": {
+    "taux": 0.1463,
+    "n": 82
+   },
+   "CREDITS TRESORERIE FEMME AFSSEF CT DE 0 A 6 MOIS AU +": {
+    "taux": 0.1429,
+    "n": 7
+   },
+   "CREDIT TRESO EMBOUCHE INFINE DE 6 A 12 MOIS AU+": {
+    "taux": 0.1429,
+    "n": 14
+   },
+   "CREDITS COMMERCIAL A MT DE+1 AN A 2 AN AU +": {
+    "taux": 0.1259,
+    "n": 397
+   },
+   "CREDITS COMMERCIAL A MT DE+2 ANS A 3 ANS AU +": {
+    "taux": 0.122,
+    "n": 41
+   },
+   "CREDITS CFE A LT DE + 3 ANS A 10 ANS AU +": {
+    "taux": 0.1111,
+    "n": 18
+   },
+   "CREDITS TRESORERIE CFE CT DE + DE 6 A 12 MOIS AU +": {
+    "taux": 0.1026,
+    "n": 117
+   },
+   "CREDIT TRESO ENTENTE PAM_FONGIP_ETER 0 A 6 MOIS": {
+    "taux": 0.1,
+    "n": 10
+   },
+   "CREDIT TRESO CAMP AGRI INFINE DE 6 A 12 MOIS AU+": {
+    "taux": 0.092,
+    "n": 174
+   },
+   "CREDITS COMMERCIAL CT DE + DE 6 MOIS A 12 MOIS AU +": {
+    "taux": 0.0833,
+    "n": 12
+   },
+   "CREDITS HABITAT NON SALARIE A MT DE+2 ANS A 3 ANS AU +": {
+    "taux": 0.0833,
+    "n": 36
+   },
+   "CREDITS TRESO MICRO ENTREPRENEUR CT DE + DE 6 A 12 MOIS AU +": {
+    "taux": 0.0795,
+    "n": 2164
+   },
+   "CREDITS CFE A MT DE+1 ANS A 2 ANS AU +": {
+    "taux": 0.0769,
+    "n": 143
+   },
+   "CREDITS CFE A MT DE+2 ANS A 3 ANS AU +": {
+    "taux": 0.0714,
+    "n": 56
+   },
+   "PARCOURS RABO CREDIT CONSOMMATION CT 6 A 12 MOIS +": {
+    "taux": 0.0625,
+    "n": 48
+   },
+   "CREDIT TRESO ENTENTE PAM_FONGIP_ETER + 6 A 12 MOIS": {
+    "taux": 0.06,
+    "n": 50
+   },
+   "CREDITS HABITAT NON SALARIE A MT DE+1 ANS A 2 ANS AU +": {
+    "taux": 0.0588,
+    "n": 17
+   },
+   "CREDITS HABITAT SALARIE A MT DE+2 ANS A 3 ANS AU +": {
+    "taux": 0.0556,
+    "n": 18
+   },
+   "CREDITS PERSONNEL A MT DE+1 AN A 2 AN AU +": {
+    "taux": 0.0531,
+    "n": 640
+   },
+   "CREDITS TRESORERIE FEMME AFSSEF CT DE + DE 6 A 12 MOIS AU +": {
+    "taux": 0.0502,
+    "n": 6913
+   },
+   "CREDITS HABITAT NON SALARIE A LT DE + 3 ANS A 10 ANS AU +": {
+    "taux": 0.0417,
+    "n": 24
+   },
+   "CREDITS PERSONNEL A MT DE+2 ANS A 3 ANS AU +": {
+    "taux": 0.0409,
+    "n": 342
+   },
+   "CREDITS PERSONNEL A LT DE + 3 ANS A 10 ANS AU +": {
+    "taux": 0.0397,
+    "n": 478
+   },
+   "CREDITS HABITAT SALARIE A LT DE + 3 ANS A 10 ANS AU +": {
+    "taux": 0.0335,
+    "n": 179
+   },
+   "CREDITS CONSOMMATION CT DE + DE 6 A 12 MOIS AU +": {
+    "taux": 0.0264,
+    "n": 455
+   },
+   "CREDIT TRESO CT TONTINE DIGITALE DE + DE 6 A 12 MOIS AU +": {
+    "taux": 0.0208,
+    "n": 48
+   },
+   "CREDITS PERSONNEL CT DE + DE 6 MOIS A 12 MOIS AU +": {
+    "taux": 0.0183,
+    "n": 164
+   },
+   "COM INFINE CT DE + DE 6 MOIS A 12 MOIS AU +": {
+    "taux": 0.0,
+    "n": 4
+   },
+   "CREDIT EQUIPMT TRANSFORMAT PDTS-AGRI E4Y LT +3 A 5 ANS +": {
+    "taux": 0.0,
+    "n": 1
+   },
+   "CREDIT FOGALOG A LT DE + 3 A 10 ANS AU +": {
+    "taux": 0.0,
+    "n": 3
+   },
+   "CREDIT EQUIP ENTENTE PAM_FONGIP_PAFEJ + 1 A 2 ANS": {
+    "taux": 0.0,
+    "n": 2
+   },
+   "CREDIT EQUIP ENTENTE PAM_FONGIP_PAFEJ 0 A 6 MOIS": {
+    "taux": 0.0,
+    "n": 1
+   },
+   "CREDIT EQUIPEMENT PAM_IBRIZ CT 6 A 12 MOIS +": {
+    "taux": 0.0,
+    "n": 1
+   },
+   "CRED DE TRESO FACILITE DE CAISSE FCC 19 DE 0 A 6 MOIS AU+": {
+    "taux": 0.0,
+    "n": 1
+   },
+   "CREDIT CONS CT ENTENTE PAM_KABIREX + 6 A 12 MOIS": {
+    "taux": 0.0,
+    "n": 1
+   },
+   "CREDIT EQUIP ENTENTE PAM_FONGIP_ETER + 1 A 2 ANS": {
+    "taux": 0.0,
+    "n": 1
+   },
+   "CREDIT EQUIP ENTENTE PAM_FONGIP_ETER + 6 A 12 MOIS": {
+    "taux": 0.0,
+    "n": 9
+   },
+   "CREDIT EQUIP ENTENTE PAM_FONGIP_ETER 0 A 6 MOIS": {
+    "taux": 0.0,
+    "n": 5
+   },
+   "CREDIT TRESO CAMP AGRI INFINE DE 0 A 6 MOIS AU+": {
+    "taux": 0.0,
+    "n": 1
+   },
+   "CREDIT REECHELONNE HNS DE 2 A 3 ANS AU PLUS": {
+    "taux": 0.0,
+    "n": 1
+   },
+   "CREDIT INVESTISSEMENT A MT DE+1 AN A 2 AN AU +": {
+    "taux": 0.0,
+    "n": 3
+   },
+   "CREDIT REECHELONNE CFE DE 3 A 10 ANS AU PLUS": {
+    "taux": 0.0,
+    "n": 1
+   },
+   "CREDIT FOGALOG A LT DE + DE 10 ANS": {
+    "taux": 0.0,
+    "n": 1
+   },
+   "CREDIT EQUIPMT E4Y_AVANCE CT 6 A 12 MOIS +": {
+    "taux": 0.0,
+    "n": 1
+   },
+   "CREDITS AUX JEUNES CT DE 0 A 6 MOIS AU +": {
+    "taux": 0.0,
+    "n": 1
+   },
+   "CREDITS CAMPAGNE CT DE + DE 6 MOIS A 12 MOIS AU +": {
+    "taux": 0.0,
+    "n": 9
+   },
+   "CREDIT TRESO ENTENTE PAM_FONGIP_ETER + 2 A 3 ANS": {
+    "taux": 0.0,
+    "n": 3
+   },
+   "CREDIT TRESO EMBOUCHE INFINE DE 0 A 6 MOIS AU+": {
+    "taux": 0.0,
+    "n": 1
+   },
+   "CREDIT TRESO CT TONTINE DIGITALE DE 0 A 6 MOIS AU +": {
+    "taux": 0.0,
+    "n": 5
+   },
+   "CREDIT TRESO ENTENTE PAM_FONGIP_PAAICE + 6 A 12 MOIS": {
+    "taux": 0.0,
+    "n": 1
+   },
+   "CREDIT TRESO ENTENTE PAM_FONGIP_PAFEJ + 6 A 12 MOIS": {
+    "taux": 0.0,
+    "n": 54
+   },
+   "CREDIT TRESO ENTENTE PAM_FONGIP_PAFEJ + 1 A 2 ANS": {
+    "taux": 0.0,
+    "n": 4
+   },
+   "CREDITS AFSSEF A LT DE + 3 ANS A 10 ANS AU +": {
+    "taux": 0.0,
+    "n": 3
+   },
+   "CREDITS AFSSEF A MT DE+2 ANS A 3 ANS AU +": {
+    "taux": 0.0,
+    "n": 3
+   },
+   "CREDITS EQUIPEMENT CT DE + DE 6 A 12 MOIS AU +": {
+    "taux": 0.0,
+    "n": 1
+   },
+   "CREDITS CONSO SALARIES ET PENS A MT DE+2 ANS A 3 ANS AU +": {
+    "taux": 0.0,
+    "n": 6
+   },
+   "CREDITS CONSO SALARIES ET PENS A LT DE + 3 ANS A 10 ANS AU +": {
+    "taux": 0.0,
+    "n": 11
+   },
+   "CREDITS CONSO SALARIES ET PENS A MT DE+1 AN A 2 AN AU +": {
+    "taux": 0.0,
+    "n": 2
+   },
+   "CREDITS HABITAT SALARIE A MT DE+1 ANS A 2 ANS AU +": {
+    "taux": 0.0,
+    "n": 3
+   },
+   "CREDITS FIDELITE EQUIPEMENT A LT DE + 3 ANS A 10 ANS AU +": {
+    "taux": 0.0,
+    "n": 11
+   },
+   "CREDITS IMMOB REPORT DECHEANCES COVID-19 REDEVENUS SAIN": {
+    "taux": 0.0,
+    "n": 1
+   },
+   "CREDITS OP HABITATS SALARIES A LT DE + 3 ANS A 10 ANS AU +": {
+    "taux": 0.0,
+    "n": 3
+   },
+   "CREDITS SYNDIQUE A MT DE+1 ANS A 2 ANS AU +": {
+    "taux": 0.0,
+    "n": 1
+   },
+   "CREDITS SYNDIQUE A LT DE + 3 ANS A 10 ANS AU +": {
+    "taux": 0.0,
+    "n": 7
+   },
+   "CREDITS PERSONNEL CT DE 0 A 6 MOIS AU +": {
+    "taux": 0.0,
+    "n": 2
+   },
+   "CREDITS SYNDIQUE CT DE + DE 6 MOIS A 12 MOIS AU +": {
+    "taux": 0.0,
+    "n": 1
+   },
+   "CREDITS TRESORERIE CFE CT DE 0 A 6 MOIS AU +": {
+    "taux": 0.0,
+    "n": 4
+   },
+   "CREDITS TRESORERIE GRPE AFSSEF CT DE 0 A 6 MOIS AU +": {
+    "taux": 0.0,
+    "n": 1
+   },
+   "PARCOURS RABO CREDIT EQUIPEMENT CT 0 A 6 MOIS +": {
+    "taux": 0.0,
+    "n": 1
+   },
+   "PERS INFINE CT DE + DE 6 MOIS A 12 MOIS AU +": {
+    "taux": 0.0,
+    "n": 2
+   }
+  },
+  "famille": {
+   "ENTENTE PAM/DER": {
+    "taux": 0.8784,
+    "n": 1184
+   },
+   "COMMERCIAL": {
+    "taux": 0.125,
+    "n": 456
+   },
+   "AUTRE": {
+    "taux": 0.1011,
+    "n": 376
+   },
+   "TRESORERIE": {
+    "taux": 0.0765,
+    "n": 10738
+   },
+   "EQUIPEMENT": {
+    "taux": 0.0526,
+    "n": 19
+   },
+   "PERSONNEL": {
+    "taux": 0.0431,
+    "n": 1626
+   },
+   "HABITAT": {
+    "taux": 0.0429,
+    "n": 280
+   },
+   "CONSOMMATION": {
+    "taux": 0.0334,
+    "n": 509
+   }
+  }
+ },
+ "age_median": 50.0,
+ "entraine_le": "13/10/2026 16:32"
+}

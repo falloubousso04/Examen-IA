@@ -1,0 +1,13 @@
+# Données des membres (numéros de crédit et de membre) : non diffusées
+*.xlsx
+*.csv
+
+# Environnement virtuel et caches Python
+.venv/
+venv/
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
+
+# Modèle produit par le notebook (la plateforme utilise model_artifacts/)
+modele_risque_credit.joblib

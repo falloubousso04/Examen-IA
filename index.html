@@ -1,0 +1,743 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Risque Crédit IA — Plateforme d'évaluation</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Crect width='24' height='24' rx='6' fill='%232a78d6'/%3E%3Cpath d='M12 5l5 2v4c0 3-2 5.6-5 6.5-3-.9-5-3.5-5-6.5V7z' fill='none' stroke='white' stroke-width='1.8'/%3E%3C/svg%3E">
+<style>
+  :root {
+    color-scheme: light;
+    --plane: #eef1f6; --surface: #ffffff; --surface-2: #f6f8fb;
+    --ink: #0b1220; --ink-2: #47536a; --muted: #7a869a;
+    --grid: #e4e8ef; --axis: #bcc5d4; --line: rgba(11,18,32,.09);
+    --accent: #2a78d6; --accent-2: #5b4bd6; --accent-soft: rgba(42,120,214,.10);
+    --good: #0a8f43; --warning: #b87503; --critical: #c62f38;
+    --good-wash: rgba(10,143,67,.10); --warning-wash: rgba(184,117,3,.12); --critical-wash: rgba(198,47,56,.10);
+    --s1: #2a78d6; --s2: #eb6834; --s3: #1baf7a; --s4: #eda100; --s5: #e87ba4;
+    --q1: #86b6ef; --q2: #5598e7; --q3: #2a78d6; --q4: #1c5cab; --q5: #104281; --q6: #0d366b;
+    --sh: 0 1px 2px rgba(11,18,32,.04), 0 6px 16px -6px rgba(11,18,32,.10);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:where(:not([data-theme="light"])) {
+      color-scheme: dark;
+      --plane: #080b13; --surface: #131826; --surface-2: #1a2032;
+      --ink: #f0f4fa; --ink-2: #a5b2c6; --muted: #74819a;
+      --grid: #232b3d; --axis: #364055; --line: rgba(255,255,255,.08);
+      --accent: #3987e5; --accent-2: #8b7ef0; --accent-soft: rgba(57,135,229,.16);
+      --good: #23c065; --warning: #f0ad2e; --critical: #ee5a63;
+      --good-wash: rgba(35,192,101,.14); --warning-wash: rgba(240,173,46,.14); --critical-wash: rgba(238,90,99,.16);
+      --s1: #3987e5; --s2: #d95926; --s3: #199e70; --s4: #c98500; --s5: #d55181;
+      --q1: #184f95; --q2: #1c5cab; --q3: #2a78d6; --q4: #5598e7; --q5: #86b6ef; --q6: #b7d3f6;
+      --sh: 0 1px 2px rgba(0,0,0,.5), 0 6px 16px -6px rgba(0,0,0,.6);
+    }
+  }
+  :root[data-theme="dark"] {
+    color-scheme: dark;
+    --plane: #080b13; --surface: #131826; --surface-2: #1a2032;
+    --ink: #f0f4fa; --ink-2: #a5b2c6; --muted: #74819a;
+    --grid: #232b3d; --axis: #364055; --line: rgba(255,255,255,.08);
+    --accent: #3987e5; --accent-2: #8b7ef0; --accent-soft: rgba(57,135,229,.16);
+    --good: #23c065; --warning: #f0ad2e; --critical: #ee5a63;
+    --good-wash: rgba(35,192,101,.14); --warning-wash: rgba(240,173,46,.14); --critical-wash: rgba(238,90,99,.16);
+    --s1: #3987e5; --s2: #d95926; --s3: #199e70; --s4: #c98500; --s5: #d55181;
+    --q1: #184f95; --q2: #1c5cab; --q3: #2a78d6; --q4: #5598e7; --q5: #86b6ef; --q6: #b7d3f6;
+    --sh: 0 1px 2px rgba(0,0,0,.5), 0 6px 16px -6px rgba(0,0,0,.6);
+  }
+
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    color: var(--ink); line-height: 1.5; -webkit-font-smoothing: antialiased;
+    background:
+      radial-gradient(1000px 520px at 10% -10%, color-mix(in srgb, var(--accent) 14%, transparent), transparent 62%),
+      radial-gradient(800px 460px at 90% -6%, color-mix(in srgb, var(--accent-2) 11%, transparent), transparent 58%),
+      var(--plane);
+    background-attachment: fixed; min-height: 100vh;
+  }
+  .wrap { max-width: 1240px; margin: 0 auto; padding: 0 24px; }
+  .ico { width: 1em; height: 1em; flex: none; }
+  :focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 6px; }
+
+  /* Barre supérieure */
+  .topbar { position: sticky; top: 0; z-index: 40; background: color-mix(in srgb, var(--surface) 80%, transparent);
+            backdrop-filter: saturate(1.6) blur(14px); border-bottom: 1px solid var(--line); }
+  .topbar .wrap { display: flex; align-items: center; justify-content: space-between; gap: 16px; height: 64px; }
+  .brand { display: flex; align-items: center; gap: 12px; min-width: 0; }
+  .mark { width: 36px; height: 36px; border-radius: 11px; flex: none; display: grid; place-items: center; color: #fff;
+          background: linear-gradient(140deg, var(--accent), var(--accent-2)); }
+  .mark .ico { width: 20px; height: 20px; }
+  .brand b { display: block; font-size: 15px; font-weight: 650; letter-spacing: -.01em; }
+  .brand span { display: block; font-size: 12px; color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .tools { display: flex; align-items: center; gap: 8px; flex: none; }
+  .pill { display: flex; align-items: center; gap: 8px; height: 34px; padding: 0 13px; font-size: 12px; color: var(--muted);
+          background: var(--surface-2); border: 1px solid var(--line); border-radius: 999px; white-space: nowrap; }
+  .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--muted); }
+  .dot.on { background: var(--good); box-shadow: 0 0 0 3px var(--good-wash); }
+  .dot.off { background: var(--critical); box-shadow: 0 0 0 3px var(--critical-wash); }
+  .ghost { height: 34px; width: 34px; border-radius: 999px; border: 1px solid var(--line); background: var(--surface-2);
+           color: var(--ink-2); cursor: pointer; display: grid; place-items: center; }
+  .ghost:hover { color: var(--ink); }
+
+  /* Onglets */
+  .hero { padding: 30px 0 10px; }
+  .hero h1 { margin: 0 0 4px; font-size: 26px; letter-spacing: -.02em; }
+  .hero p { margin: 0; color: var(--ink-2); max-width: 780px; }
+  .tabs { display: flex; gap: 4px; margin: 20px 0 22px; padding: 4px; background: var(--surface); border: 1px solid var(--line);
+          border-radius: 13px; width: fit-content; max-width: 100%; overflow-x: auto; box-shadow: var(--sh); }
+  .tab { display: flex; align-items: center; gap: 8px; border: none; background: none; color: var(--ink-2); font: inherit;
+         font-size: 14px; font-weight: 550; padding: 8px 15px; border-radius: 9px; cursor: pointer; white-space: nowrap; }
+  .tab:hover { color: var(--ink); }
+  .tab[aria-selected="true"] { background: var(--accent-soft); color: var(--accent); }
+  .panel { display: none; padding-bottom: 50px; }
+  .panel.on { display: block; animation: fade .25s ease; }
+  @keyframes fade { from { opacity: 0; transform: translateY(4px); } }
+
+  /* Cartes et grilles */
+  .grid { display: grid; gap: 16px; }
+  .g4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  .g2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .g3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .g-form { grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); align-items: start; }
+  .card { background: var(--surface); border: 1px solid var(--line); border-radius: 16px; padding: 20px; box-shadow: var(--sh); min-width: 0; }
+  .card h3 { margin: 0; font-size: 15px; font-weight: 650; }
+  .card .sub { margin: 2px 0 14px; font-size: 13px; color: var(--muted); }
+  .mt { margin-top: 16px; }
+  .tile .lbl { font-size: 13px; color: var(--ink-2); }
+  .tile .val { font-size: 28px; font-weight: 650; letter-spacing: -.02em; margin-top: 2px; font-variant-numeric: tabular-nums; }
+  .tile .note { font-size: 12px; color: var(--muted); }
+
+  /* Formulaire */
+  label { display: block; font-size: 13px; font-weight: 550; color: var(--ink-2); margin-bottom: 5px; }
+  .field { margin-bottom: 14px; }
+  .row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  select, input[type=number] { width: 100%; height: 40px; padding: 0 11px; font: inherit; font-size: 14px; color: var(--ink);
+          background: var(--surface-2); border: 1px solid var(--line); border-radius: 10px; }
+  select:focus, input:focus { outline: 2px solid var(--accent-soft); border-color: var(--accent); }
+  .hint { font-size: 12px; color: var(--muted); margin-top: 4px; }
+  .btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; height: 42px; padding: 0 20px;
+         border: none; border-radius: 10px; font: inherit; font-weight: 600; font-size: 14px; cursor: pointer;
+         color: #fff; background: linear-gradient(140deg, var(--accent), color-mix(in srgb, var(--accent) 70%, var(--accent-2))); }
+  .btn:hover { filter: brightness(1.07); }
+  .btn:disabled { opacity: .6; cursor: wait; }
+  .btn.sec { background: var(--surface-2); color: var(--ink); border: 1px solid var(--line); }
+  .btn.full { width: 100%; }
+
+  /* Résultat */
+  .empty { display: grid; place-items: center; text-align: center; color: var(--muted); min-height: 300px; font-size: 14px; }
+  .empty .ico { width: 40px; height: 40px; margin-bottom: 8px; opacity: .5; }
+  .score { display: flex; align-items: flex-end; gap: 14px; flex-wrap: wrap; }
+  .score .big { font-size: 56px; font-weight: 700; letter-spacing: -.03em; line-height: 1; font-variant-numeric: tabular-nums; }
+  .badge { display: inline-flex; align-items: center; gap: 6px; padding: 5px 11px; border-radius: 999px; font-size: 13px; font-weight: 650; }
+  .badge .ico { width: 15px; height: 15px; }
+  .b-ÉLEVÉ { color: var(--critical); background: var(--critical-wash); }
+  .b-MODÉRÉ { color: var(--warning); background: var(--warning-wash); }
+  .b-FAIBLE { color: var(--good); background: var(--good-wash); }
+  .meter { position: relative; height: 12px; border-radius: 6px; margin: 22px 0 6px;
+           background: linear-gradient(90deg, var(--good-wash), var(--warning-wash), var(--critical-wash)); }
+  .meter .fill { position: absolute; inset: 0 auto 0 0; border-radius: 6px; transition: width .5s ease; }
+  .meter .tick { position: absolute; top: -5px; bottom: -5px; width: 2px; background: var(--ink-2); border-radius: 1px; }
+  .meter-lbl { display: flex; justify-content: space-between; font-size: 11.5px; color: var(--muted); }
+  .decision { margin-top: 16px; padding: 12px 14px; border-radius: 10px; background: var(--surface-2); font-size: 14px; }
+  .ref { display: grid; grid-template-columns: minmax(0, 1fr) 60px; gap: 2px 12px; align-items: center; font-size: 13px; }
+  .ref .bar { height: 8px; border-radius: 4px; background: var(--grid); grid-column: 1 / -1; margin-bottom: 10px; position: relative; overflow: hidden; }
+  .ref .bar i { position: absolute; inset: 0 auto 0 0; background: var(--accent); border-radius: 0 4px 4px 0; }
+  .ref .v { text-align: right; font-variant-numeric: tabular-nums; font-weight: 600; }
+  .ref .n { color: var(--muted); font-weight: 400; }
+  .ellipsis { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+  /* Tableaux */
+  .tbl-wrap { overflow-x: auto; border: 1px solid var(--line); border-radius: 12px; }
+  table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  th, td { padding: 9px 12px; text-align: left; border-bottom: 1px solid var(--line); white-space: nowrap; }
+  th { font-size: 12px; font-weight: 600; color: var(--ink-2); background: var(--surface-2); position: sticky; top: 0; }
+  td.num, th.num { text-align: right; font-variant-numeric: tabular-nums; }
+  tr:last-child td { border-bottom: none; }
+  tr.best td { background: var(--accent-soft); }
+  td.type { max-width: 260px; overflow: hidden; text-overflow: ellipsis; }
+  .key { display: inline-block; width: 14px; height: 3px; border-radius: 2px; vertical-align: middle; margin-right: 8px; }
+
+  /* Graphiques */
+  .chart { position: relative; width: 100%; }
+  .chart svg { display: block; width: 100%; overflow: visible; }
+  .chart text { font-size: 11.5px; fill: var(--muted); font-family: inherit; }
+  .chart .lab { fill: var(--ink-2); font-size: 12px; }
+  .chart .halo { paint-order: stroke; stroke: var(--surface); stroke-width: 4px; stroke-linejoin: round; }
+  .chart .val { fill: var(--ink); font-size: 12px; font-weight: 600; font-variant-numeric: tabular-nums;
+                paint-order: stroke; stroke: var(--surface); stroke-width: 4px; stroke-linejoin: round; }
+  .legend { display: flex; flex-wrap: wrap; gap: 6px 16px; font-size: 12.5px; color: var(--ink-2); margin-bottom: 10px; }
+  .legend span { display: inline-flex; align-items: center; }
+  #tip { position: fixed; z-index: 100; pointer-events: none; opacity: 0; transition: opacity .12s; max-width: 320px;
+         background: var(--surface); color: var(--ink); border: 1px solid var(--line); border-radius: 10px;
+         padding: 8px 11px; font-size: 12.5px; box-shadow: 0 8px 24px -8px rgba(0,0,0,.3); }
+  #tip b { font-weight: 650; }
+  #tip .tr { display: flex; align-items: center; gap: 8px; justify-content: space-between; }
+  #tip .tr span:last-child { font-variant-numeric: tabular-nums; font-weight: 600; }
+
+  /* Matrice de confusion */
+  .cm { display: grid; grid-template-columns: auto 1fr 1fr; gap: 4px; font-size: 13px; }
+  .cm .h { color: var(--muted); font-size: 12px; display: grid; place-items: center; padding: 4px; text-align: center; }
+  .cm .c { border-radius: 10px; padding: 14px 8px; text-align: center; }
+  .cm .c b { display: block; font-size: 22px; font-variant-numeric: tabular-nums; }
+  .cm .c span { font-size: 11.5px; }
+
+  /* Import */
+  .drop { border: 2px dashed var(--axis); border-radius: 14px; padding: 34px 20px; text-align: center; cursor: pointer;
+          color: var(--ink-2); transition: .15s; background: var(--surface-2); }
+  .drop:hover, .drop.over { border-color: var(--accent); background: var(--accent-soft); }
+  .drop .ico { width: 34px; height: 34px; color: var(--accent); margin-bottom: 6px; }
+  .toolbar { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; margin-bottom: 12px; }
+  .toolbar input[type=search] { flex: 1; min-width: 180px; height: 38px; padding: 0 12px; font: inherit; font-size: 14px; color: var(--ink);
+          background: var(--surface-2); border: 1px solid var(--line); border-radius: 10px; }
+  .toolbar select { width: auto; height: 38px; }
+  .alert { padding: 11px 14px; border-radius: 10px; font-size: 13.5px; margin-top: 12px; }
+  .alert.err { background: var(--critical-wash); color: var(--critical); }
+  .alert.info { background: var(--accent-soft); color: var(--ink-2); }
+  .stack { display: flex; height: 14px; border-radius: 7px; overflow: hidden; gap: 2px; margin: 10px 0 8px; }
+  .stack div { height: 100%; }
+  .muted { color: var(--muted); }
+  ul.clean { margin: 6px 0 0; padding-left: 18px; font-size: 14px; color: var(--ink-2); }
+  ul.clean li { margin-bottom: 4px; }
+  .compare { display: flex; gap: 14px; align-items: flex-end; margin-top: 8px; }
+  .compare div { flex: 1; }
+  .compare .big { font-size: 30px; font-weight: 700; font-variant-numeric: tabular-nums; }
+  footer { text-align: center; font-size: 12px; color: var(--muted); padding: 20px 0 30px; }
+
+  @media (max-width: 980px) {
+    .g4 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .g2, .g-form { grid-template-columns: minmax(0, 1fr); }
+  }
+  @media (max-width: 560px) {
+    .wrap { padding: 0 16px; }
+    .g4, .g3 { grid-template-columns: minmax(0, 1fr); }
+    .row2 { grid-template-columns: 1fr; }
+    .pill .txt { display: none; }
+    .brand span { display: none; }
+    .score .big { font-size: 44px; }
+  }
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute">
+  <defs>
+    <g id="i-shield"><path d="M12 3l7 3v5.5c0 4.4-3 8.3-7 9.5-4-1.2-7-5.1-7-9.5V6l7-3z"/><path d="M9 12l2 2 4-4"/></g>
+    <g id="i-chart"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></g>
+    <g id="i-user"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/></g>
+    <g id="i-file"><path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><path d="M14 3v6h6M12 18v-6M9 15l3-3 3 3"/></g>
+    <g id="i-cpu"><rect x="5" y="5" width="14" height="14" rx="2"/><path d="M9 9h6v6H9zM9 2v3M15 2v3M9 19v3M15 19v3M2 9h3M2 15h3M19 9h3M19 15h3"/></g>
+    <g id="i-moon"><path d="M20 14.5A8 8 0 0 1 9.5 4 8 8 0 1 0 20 14.5z"/></g>
+    <g id="i-alert"><path d="M12 3l10 18H2z"/><path d="M12 10v4M12 17.5v.5"/></g>
+    <g id="i-check"><circle cx="12" cy="12" r="9"/><path d="M8 12l3 3 5-6"/></g>
+    <g id="i-info"><circle cx="12" cy="12" r="9"/><path d="M12 11v6M12 7.5v.5"/></g>
+    <g id="i-down"><path d="M12 4v12M7 11l5 5 5-5M4 20h16"/></g>
+  </defs>
+</svg>
+
+<header class="topbar">
+  <div class="wrap">
+    <div class="brand">
+      <div class="mark"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><use href="#i-shield"/></svg></div>
+      <div><b>Risque Crédit IA</b><span>Évaluation du risque de crédit par Machine Learning</span></div>
+    </div>
+    <div class="tools">
+      <div class="pill"><span class="dot" id="dot"></span><span class="txt" id="apiStatus">Connexion…</span></div>
+      <button class="ghost" id="theme" title="Changer de thème" aria-label="Changer de thème">
+        <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><use href="#i-moon"/></svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+  <div class="hero">
+    <h1>Plateforme d'évaluation du risque de crédit</h1>
+    <p>Un modèle d'intelligence artificielle estime la probabilité qu'un crédit tombe en <b>retard de plus de 30 jours</b> (indicateur PAR 30), à partir des informations connues au moment de la demande.</p>
+  </div>
+
+  <nav class="tabs" role="tablist">
+    <button class="tab" role="tab" data-p="p-eval" aria-selected="true"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><use href="#i-user"/></svg>Évaluer une demande</button>
+    <button class="tab" role="tab" data-p="p-import" aria-selected="false"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><use href="#i-file"/></svg>Analyser un fichier</button>
+    <button class="tab" role="tab" data-p="p-data" aria-selected="false"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><use href="#i-chart"/></svg>Tableau de bord</button>
+    <button class="tab" role="tab" data-p="p-model" aria-selected="false"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><use href="#i-cpu"/></svg>Modèle</button>
+  </nav>
+
+  <!-- ═══════════ Évaluer une demande ═══════════ -->
+  <section class="panel on" id="p-eval">
+    <div class="grid g-form">
+      <form class="card" id="form">
+        <h3>Nouvelle demande de crédit</h3>
+        <p class="sub">Renseignez les informations du dossier.</p>
+        <div class="field"><label for="f-agence">Agence</label><select id="f-agence" required></select></div>
+        <div class="field"><label for="f-secteur">Secteur d'activité</label><select id="f-secteur" required></select></div>
+        <div class="field"><label for="f-type">Type de crédit</label><select id="f-type" required></select>
+          <div class="hint" id="f-type-hint"></div></div>
+        <div class="row2">
+          <div class="field"><label for="f-montant">Montant demandé (FCFA)</label><input type="number" id="f-montant" min="1" step="any" value="500000" required></div>
+          <div class="field"><label for="f-mois">Mois d'ouverture</label><select id="f-mois"></select></div>
+        </div>
+        <div class="row2">
+          <div class="field"><label for="f-age">Âge de l'emprunteur</label><input type="number" id="f-age" min="18" max="100" value="45" required></div>
+          <div class="field"><label for="f-ant">Crédits antérieurs</label><input type="number" id="f-ant" min="0" max="50" value="3" placeholder="inconnu"></div>
+        </div>
+        <button class="btn full" type="submit" id="btn-eval">Évaluer le risque</button>
+        <div id="eval-err"></div>
+      </form>
+
+      <div>
+        <div class="card" id="result">
+          <div class="empty"><div><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><use href="#i-shield"/></svg><div>Remplissez le formulaire puis cliquez sur <b>Évaluer le risque</b>.</div></div></div>
+        </div>
+        <div class="card mt" id="history-card" style="display:none">
+          <h3>Demandes évaluées</h3>
+          <p class="sub">Historique de la session en cours</p>
+          <div class="tbl-wrap"><table><thead><tr><th>Type de crédit</th><th>Agence</th><th class="num">Montant</th><th class="num">Probabilité</th><th>Niveau</th></tr></thead><tbody id="history"></tbody></table></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════ Analyser un fichier ═══════════ -->
+  <section class="panel" id="p-import">
+    <div class="card">
+      <h3>Analyse d'un portefeuille</h3>
+      <p class="sub">Importez un fichier Excel (.xlsx) ou CSV au même format que <b>DataSet_Credit.xlsx</b> : chaque crédit reçoit un score de risque. Si la colonne RETARD est présente, les prédictions sont comparées à la réalité.</p>
+      <label class="drop" id="drop" for="file">
+        <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><use href="#i-file"/></svg>
+        <div><b>Cliquez ou glissez un fichier ici</b></div>
+        <div class="muted" style="font-size:13px">Colonnes requises : AGENCE, SECTEUR ACTIVITE, TYPE DE CREDIT, Age, MONTANT_DEBOURSE</div>
+      </label>
+      <input type="file" id="file" accept=".xlsx,.xls,.csv" hidden>
+      <div id="import-msg"></div>
+    </div>
+    <div id="import-res"></div>
+  </section>
+
+  <!-- ═══════════ Tableau de bord ═══════════ -->
+  <section class="panel" id="p-data">
+    <div class="grid g4" id="kpis"></div>
+    <div class="grid g2 mt">
+      <div class="card"><h3>Répartition des crédits par retard</h3><p class="sub">Nombre de crédits par tranche de retard de remboursement</p><div class="chart" id="c-retards"></div></div>
+      <div class="card"><h3>Taux de risque par famille de crédit</h3><p class="sub">Part des crédits en retard de plus de 30 jours ; trait vertical = moyenne du portefeuille</p><div class="chart" id="c-famille"></div></div>
+      <div class="card"><h3>Taux de risque par agence</h3><p class="sub">Part des crédits en retard de plus de 30 jours</p><div class="chart" id="c-agence"></div></div>
+      <div class="card"><h3>Taux de risque par montant déboursé</h3><p class="sub">Tranches de montant en FCFA</p><div class="chart" id="c-montant"></div></div>
+    </div>
+    <div class="card mt"><h3>Taux de risque par secteur d'activité</h3><p class="sub">Secteurs comptant au moins 30 crédits</p><div class="chart" id="c-secteur"></div></div>
+    <div class="card mt"><h3>Préparation des données</h3><p class="sub">Nettoyage effectué avant l'entraînement</p><ul class="clean" id="nettoyage"></ul></div>
+  </section>
+
+  <!-- ═══════════ Modèle ═══════════ -->
+  <section class="panel" id="p-model">
+    <div class="grid g4" id="m-kpis"></div>
+    <div class="grid g2 mt">
+      <div class="card"><h3>Courbes ROC des 5 modèles</h3><p class="sub">Jeu de test (20 % des crédits, jamais vus à l'entraînement)</p><div class="legend" id="roc-legend"></div><div class="chart" id="c-roc"></div></div>
+      <div class="card"><h3>Comparaison des modèles</h3><p class="sub">AUC en validation croisée (5 plis) et sur le jeu de test ; métriques au seuil 0,5</p>
+        <div class="tbl-wrap"><table><thead><tr><th>Modèle</th><th class="num">AUC CV</th><th class="num">AUC test</th><th class="num">Précision</th><th class="num">Rappel</th><th class="num">F1</th></tr></thead><tbody id="t-comp"></tbody></table></div>
+        <p class="muted" style="font-size:12.5px;margin:10px 0 0">Le Random Forest, meilleur AUC sur le test, a été retenu, optimisé par GridSearch puis calibré.</p>
+      </div>
+      <div class="card"><h3>Matrice de confusion</h3><p class="sub" id="cm-sub"></p><div id="cm"></div></div>
+      <div class="card"><h3>Choix du seuil de décision</h3><p class="sub">Précision, rappel et F1 selon le seuil (jeu de test)</p><div class="legend" id="seuil-legend"></div><div class="chart" id="c-seuil"></div></div>
+      <div class="card"><h3>Importance des variables</h3><p class="sub">Contribution de chaque variable aux décisions du Random Forest</p><div class="chart" id="c-imp"></div></div>
+      <div class="card"><h3>Fuite de données évitée</h3><p class="sub">Pourquoi SOLDE_CREDIT et ANNEE_OUVERTURE ne sont pas utilisés</p>
+        <div class="compare" id="fuite"></div>
+        <p style="font-size:13.5px;color:var(--ink-2);margin:14px 0 0">Le solde restant n'est connu qu'<b>après</b> l'octroi, et un crédit ancien encore ouvert est presque toujours en défaut. Ces variables donneraient un score presque parfait, mais <b>inutilisable</b> pour un nouveau client. Le modèle n'utilise que des informations disponibles au moment de la demande.</p>
+      </div>
+    </div>
+    <div class="card mt"><h3>Méthode</h3><ul class="clean" id="methode"></ul></div>
+  </section>
+</main>
+<footer>Projet d'Intelligence Artificielle — évaluation du risque de crédit · <a href="/docs" style="color:var(--accent)">Documentation de l'API</a></footer>
+<div id="tip"></div>
+
+<script>
+const $ = id => document.getElementById(id);
+const API = location.protocol.startsWith('http') ? '' : 'http://localhost:8000';
+const nf = new Intl.NumberFormat('fr-FR');
+const pct = (v, d = 1) => v == null ? '—' : (v * 100).toLocaleString('fr-FR', { minimumFractionDigits: d, maximumFractionDigits: d }) + ' %';
+const fcfa = v => {
+  if (v >= 1e9) return (v / 1e9).toLocaleString('fr-FR', { maximumFractionDigits: 2 }) + ' Mds FCFA';
+  if (v >= 1e6) return (v / 1e6).toLocaleString('fr-FR', { maximumFractionDigits: 1 }) + ' M FCFA';
+  return nf.format(Math.round(v)) + ' FCFA';
+};
+const esc = s => String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]);
+const ic = (name, sw = 1.9) => `<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="${sw}" stroke-linecap="round" stroke-linejoin="round"><use href="#i-${name}"/></svg>`;
+const NIVEAU_ICO = { 'ÉLEVÉ': 'alert', 'MODÉRÉ': 'info', 'FAIBLE': 'check' };
+const badge = n => `<span class="badge b-${n}">${ic(NIVEAU_ICO[n], 2.2)}${n === 'ÉLEVÉ' ? 'Risque élevé' : n === 'MODÉRÉ' ? 'Risque modéré' : 'Risque faible'}</span>`;
+const MOIS = ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre'];
+const NS = 'http://www.w3.org/2000/svg';
+const dec = (v, d = 3) => v.toLocaleString('fr-FR', { minimumFractionDigits: d, maximumFractionDigits: d });
+let META = null, RAPPORT = null;
+
+/* ── Thème ── */
+const themeBtn = $('theme');
+try { const t = localStorage.getItem('theme'); if (t) document.documentElement.dataset.theme = t; } catch (e) {}
+themeBtn.onclick = () => {
+  const dark = document.documentElement.dataset.theme
+    ? document.documentElement.dataset.theme === 'dark'
+    : matchMedia('(prefers-color-scheme: dark)').matches;
+  document.documentElement.dataset.theme = dark ? 'light' : 'dark';
+  try { localStorage.setItem('theme', document.documentElement.dataset.theme); } catch (e) {}
+};
+
+/* ── Onglets ── */
+function ouvrirOnglet(id) {
+  const t = document.querySelector(`.tab[data-p="${id}"]`); if (!t) return;
+  document.querySelectorAll('.tab').forEach(x => x.setAttribute('aria-selected', x === t));
+  document.querySelectorAll('.panel').forEach(p => p.classList.toggle('on', p.id === id));
+  history.replaceState(null, '', '#' + id);
+  redraw();
+}
+document.querySelectorAll('.tab').forEach(t => t.onclick = () => ouvrirOnglet(t.dataset.p));
+
+/* ── Infobulle ── */
+const tip = $('tip');
+function showTip(html, e) {
+  tip.innerHTML = html; tip.style.opacity = 1;
+  const r = tip.getBoundingClientRect();
+  let x = e.clientX + 14, y = e.clientY + 14;
+  if (x + r.width > innerWidth - 8) x = e.clientX - r.width - 14;
+  if (y + r.height > innerHeight - 8) y = e.clientY - r.height - 14;
+  tip.style.left = x + 'px'; tip.style.top = y + 'px';
+}
+const hideTip = () => tip.style.opacity = 0;
+const el = (tag, attrs = {}, parent) => {
+  const n = document.createElementNS(NS, tag);
+  for (const k in attrs) n.setAttribute(k, attrs[k]);
+  if (parent) parent.appendChild(n);
+  return n;
+};
+function measure(texts, cls) {
+  const s = el('svg', { style: 'position:absolute;visibility:hidden' }); document.body.appendChild(s);
+  const t = el('text', { class: cls }, s);
+  let w = 0;
+  for (const x of texts) { t.textContent = x; w = Math.max(w, t.getComputedTextLength()); }
+  s.remove(); return w;
+}
+
+/* ── Barres horizontales ── */
+const DRAW = [];
+function hbar(id, data, o = {}) {
+  DRAW.push([id, () => hbar_(id, data, o)]); hbar_(id, data, o);
+}
+function hbar_(id, data, { fmt = pct, ref = null, refLabel = '', colors = null, tipFn = null, maxLabel = 230 } = {}) {
+  const box = $(id); if (!box.offsetParent) return;
+  box.innerHTML = '';
+  const W = box.clientWidth, bh = 20, gap = 12, top = ref != null ? 20 : 4;
+  let labels = data.map(d => d.nom.length > 40 ? d.nom.slice(0, 38) + '…' : d.nom);
+  const lw = Math.min(maxLabel, Math.max(60, measure(labels, 'lab') + 12), W * .45);
+  labels = labels.map(l => { while (l.length > 4 && measure([l], 'lab') > lw - 12) l = l.slice(0, -2).trimEnd() + '…'; return l; });
+  const vw = measure(data.map(d => fmt(d.v)), 'val') + 10;
+  const H = top + data.length * (bh + gap);
+  const svg = el('svg', { height: H, viewBox: `0 0 ${W} ${H}`, role: 'img' }, box);
+  const max = Math.max(...data.map(d => d.v), ref || 0) || 1;
+  const x = v => lw + (W - lw - vw) * v / max;
+  el('line', { x1: lw, x2: lw, y1: top - 4, y2: H - gap + 4, stroke: 'var(--axis)' }, svg);
+  if (ref != null) {
+    el('line', { x1: x(ref), x2: x(ref), y1: top - 6, y2: H - gap + 2, stroke: 'var(--ink-2)', 'stroke-width': 1.5 }, svg);
+    const t = el('text', { x: x(ref), y: 10, 'text-anchor': 'middle' }, svg); t.textContent = refLabel;
+  }
+  data.forEach((d, i) => {
+    const y = top + i * (bh + gap), w = Math.max(x(d.v) - lw, 1), r = Math.min(4, w);
+    const t = el('text', { x: lw - 10, y: y + bh / 2 + 4, 'text-anchor': 'end', class: 'lab' }, svg); t.textContent = labels[i];
+    el('path', { d: `M${lw},${y}h${w - r}a${r},${r} 0 0 1 ${r},${r}v${bh - 2 * r}a${r},${r} 0 0 1 -${r},${r}h-${w - r}z`,
+      fill: colors ? colors[i] : 'var(--accent)' }, svg);
+    const v = el('text', { x: lw + w + 6, y: y + bh / 2 + 4, class: 'val' }, svg); v.textContent = fmt(d.v);
+    const hit = el('rect', { x: 0, y: y - gap / 2, width: W, height: bh + gap, fill: 'transparent' }, svg);
+    hit.onmousemove = e => showTip(tipFn ? tipFn(d) : `<b>${esc(d.nom)}</b><br>${fmt(d.v)}`, e);
+    hit.onmouseleave = hideTip;
+  });
+}
+
+/* ── Courbes ── */
+function lines(id, series, o) { DRAW.push([id, () => lines_(id, series, o)]); lines_(id, series, o); }
+function lines_(id, series, { xLab, yLab, H = 290, diag = false, vline = null, xfmt = v => v.toFixed(1), yfmt = v => pct(v, 0), tipX = xfmt }) {
+  const box = $(id); if (!box.offsetParent) return;
+  box.innerHTML = '';
+  const W = box.clientWidth, m = { l: 46, r: 12, t: 8, b: 40 };
+  const svg = el('svg', { height: H, viewBox: `0 0 ${W} ${H}`, role: 'img' }, box);
+  const xs = series.flatMap(s => s.pts.map(p => p[0]));
+  const x0 = Math.min(...xs), x1 = Math.max(...xs);
+  const X = v => m.l + (W - m.l - m.r) * (v - x0) / (x1 - x0), Y = v => H - m.b - (H - m.t - m.b) * v;
+  for (let k = 0; k <= 4; k++) {
+    const v = k / 4, y = Y(v);
+    el('line', { x1: m.l, x2: W - m.r, y1: y, y2: y, stroke: k ? 'var(--grid)' : 'var(--axis)' }, svg);
+    const t = el('text', { x: m.l - 8, y: y + 4, 'text-anchor': 'end' }, svg); t.textContent = yfmt(v);
+    const xv = x0 + (x1 - x0) * k / 4, tx = el('text', { x: X(xv), y: H - m.b + 18, 'text-anchor': 'middle' }, svg); tx.textContent = xfmt(xv);
+  }
+  const xl = el('text', { x: (m.l + W - m.r) / 2, y: H - 4, 'text-anchor': 'middle', class: 'lab' }, svg); xl.textContent = xLab;
+  const yl = el('text', { x: -(H - m.b + m.t) / 2, y: 11, transform: 'rotate(-90)', 'text-anchor': 'middle', class: 'lab' }, svg); yl.textContent = yLab;
+  if (diag) el('line', { x1: X(0), y1: Y(0), x2: X(1), y2: Y(1), stroke: 'var(--axis)', 'stroke-dasharray': '4 4' }, svg);
+  if (vline) {
+    el('line', { x1: X(vline.x), x2: X(vline.x), y1: m.t, y2: H - m.b, stroke: 'var(--ink-2)', 'stroke-width': 1.5 }, svg);
+  }
+  series.forEach(s => el('path', { d: s.pts.map((p, i) => (i ? 'L' : 'M') + X(p[0]).toFixed(1) + ',' + Y(p[1]).toFixed(1)).join(''),
+    fill: 'none', stroke: s.color, 'stroke-width': 2, 'stroke-linejoin': 'round', 'stroke-linecap': 'round' }, svg));
+  if (vline) { const t = el('text', { x: X(vline.x) + 6, y: H - m.b - 8, class: 'lab halo' }, svg); t.textContent = vline.label; }
+  const cross = el('line', { y1: m.t, y2: H - m.b, stroke: 'var(--axis)', opacity: 0 }, svg);
+  const dots = series.map(s => el('circle', { r: 4.5, fill: s.color, stroke: 'var(--surface)', 'stroke-width': 2, opacity: 0 }, svg));
+  const interp = (pts, xv) => {
+    for (let i = 1; i < pts.length; i++) if (pts[i][0] >= xv) {
+      const [a, b] = [pts[i - 1], pts[i]]; return b[0] === a[0] ? b[1] : a[1] + (b[1] - a[1]) * (xv - a[0]) / (b[0] - a[0]);
+    }
+    return pts[pts.length - 1][1];
+  };
+  const hit = el('rect', { x: m.l, y: m.t, width: W - m.l - m.r, height: H - m.t - m.b, fill: 'transparent' }, svg);
+  hit.onmousemove = e => {
+    const rect = svg.getBoundingClientRect();
+    const xv = Math.min(x1, Math.max(x0, x0 + (e.clientX - rect.left - m.l) / (W - m.l - m.r) * (x1 - x0)));
+    cross.setAttribute('x1', X(xv)); cross.setAttribute('x2', X(xv)); cross.setAttribute('opacity', 1);
+    const vals = series.map(s => interp(s.pts, xv));
+    dots.forEach((d, i) => { d.setAttribute('cx', X(xv)); d.setAttribute('cy', Y(vals[i])); d.setAttribute('opacity', 1); });
+    showTip(`<b>${xLab} : ${tipX(xv)}</b>` + series.map((s, i) =>
+      `<div class="tr"><span><i class="key" style="background:${s.color}"></i>${esc(s.nom)}</span><span>${pct(vals[i])}</span></div>`).join(''), e);
+  };
+  hit.onmouseleave = () => { hideTip(); cross.setAttribute('opacity', 0); dots.forEach(d => d.setAttribute('opacity', 0)); };
+}
+function legend(id, series) {
+  $(id).innerHTML = series.map(s => `<span><i class="key" style="background:${s.color}"></i>${esc(s.nom)}</span>`).join('');
+}
+function redraw() { DRAW.forEach(([, f]) => f()); }
+let rz; addEventListener('resize', () => { clearTimeout(rz); rz = setTimeout(redraw, 120); });
+
+function matrice(c, n) {
+  const cell = (v, lab, good) => {
+    const a = Math.round(12 + 70 * v / n);
+    const bg = good ? `color-mix(in srgb, var(--accent) ${a}%, var(--surface))` : `color-mix(in srgb, var(--critical) ${Math.max(10, a)}%, var(--surface))`;
+    const ink = a > 45 ? '#fff' : 'var(--ink)';
+    return `<div class="c" style="background:${bg};color:${ink}"><b>${nf.format(v)}</b><span>${lab}</span></div>`;
+  };
+  return `<div class="cm">
+    <div></div><div class="h">Prédit : bon crédit</div><div class="h">Prédit : à risque</div>
+    <div class="h">Réel :<br>bon crédit</div>${cell(c.vrais_negatifs, 'vrais négatifs', true)}${cell(c.faux_positifs, 'fausses alertes', false)}
+    <div class="h">Réel :<br>à risque</div>${cell(c.faux_negatifs, 'risques manqués', false)}${cell(c.vrais_positifs, 'risques détectés', true)}
+  </div>`;
+}
+const tile = (lbl, val, note = '') => `<div class="card tile"><div class="lbl">${lbl}</div><div class="val">${val}</div><div class="note">${note}</div></div>`;
+
+/* ── Chargement ── */
+async function init() {
+  try {
+    const [h, m, r] = await Promise.all(['/health', '/meta', '/rapport'].map(p => fetch(API + p).then(x => { if (!x.ok) throw 0; return x.json(); })));
+    META = m; RAPPORT = r;
+    $('dot').className = 'dot on'; $('apiStatus').textContent = `API connectée · modèle du ${h.entraine_le}`;
+  } catch (e) {
+    $('dot').className = 'dot off'; $('apiStatus').textContent = 'API hors ligne';
+    $('result').innerHTML = `<div class="alert err">Impossible de joindre l'API. Lancez-la avec <code>uvicorn app:app --port 8000</code> puis ouvrez <b>http://localhost:8000</b>.</div>`;
+    return;
+  }
+  remplirFormulaire(); dashboard(); modele();
+  if (location.hash) ouvrirOnglet(location.hash.slice(1));
+}
+
+/* ── Formulaire ── */
+function remplirFormulaire() {
+  const opt = (v, t = v) => `<option value="${esc(v)}">${esc(t)}</option>`;
+  $('f-agence').innerHTML = META.agences.map(a => opt(a)).join('');
+  $('f-secteur').innerHTML = META.secteurs.map(s => opt(s)).join('');
+  const fam = {};
+  META.types_credit.forEach(t => (fam[t.famille] ||= []).push(t));
+  $('f-type').innerHTML = Object.keys(fam).sort().map(f =>
+    `<optgroup label="${esc(f)}">${fam[f].map(t => opt(t.libelle, t.libelle.replace(/\s+/g, ' '))).join('')}</optgroup>`).join('');
+  $('f-type').value = META.types_credit[0].libelle;
+  $('f-mois').innerHTML = MOIS.map((m, i) => opt(i + 1, m)).join('');
+  $('f-mois').value = new Date().getMonth() + 1;
+  const hint = () => {
+    const t = META.types_credit.find(x => x.libelle === $('f-type').value);
+    $('f-type-hint').textContent = t ? `Famille ${t.famille.toLowerCase()} · ${nf.format(t.n)} crédits dans l'historique` : '';
+  };
+  $('f-type').onchange = hint; hint();
+}
+
+$('form').onsubmit = async e => {
+  e.preventDefault();
+  const btn = $('btn-eval'); btn.disabled = true; $('eval-err').innerHTML = '';
+  const ant = $('f-ant').value;
+  const body = {
+    agence: $('f-agence').value, secteur: $('f-secteur').value, type_credit: $('f-type').value,
+    age: +$('f-age').value, nb_credits_anterieurs: ant === '' ? null : +ant,
+    montant: +$('f-montant').value, mois_ouverture: +$('f-mois').value,
+  };
+  try {
+    const r = await fetch(API + '/predict', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) });
+    const d = await r.json();
+    if (!r.ok) throw new Error(Array.isArray(d.detail) ? d.detail.map(x => x.msg).join(' ; ') : d.detail);
+    afficherResultat(d, body);
+  } catch (err) {
+    $('eval-err').innerHTML = `<div class="alert err">${esc(err.message || 'Erreur lors de l\'évaluation')}</div>`;
+  } finally { btn.disabled = false; }
+};
+
+function afficherResultat(d, body) {
+  const p = d.probabilite_defaut, col = { 'ÉLEVÉ': 'var(--critical)', 'MODÉRÉ': 'var(--warning)', 'FAIBLE': 'var(--good)' }[d.niveau_risque];
+  const reps = [['Ce type de crédit', d.reperes.type_credit], ['Famille ' + d.reperes.famille.nom.toLowerCase(), d.reperes.famille],
+                ['Agence ' + d.reperes.agence.nom, d.reperes.agence], ['Secteur ' + d.reperes.secteur.nom.toLowerCase(), d.reperes.secteur]];
+  const maxRep = Math.max(...reps.map(r => r[1].taux || 0), d.reperes.global);
+  $('result').innerHTML = `
+    <h3>Résultat de l'évaluation</h3>
+    <p class="sub">Probabilité que ce crédit tombe en retard de plus de 30 jours</p>
+    <div class="score"><div class="big">${pct(p)}</div>${badge(d.niveau_risque)}</div>
+    <div class="meter"><div class="fill" style="width:${p * 100}%;background:${col}"></div>
+      <div class="tick" style="left:${d.seuil * 50}%" title="Seuil risque modéré"></div>
+      <div class="tick" style="left:${d.seuil * 100}%" title="Seuil risque élevé"></div></div>
+    <div class="meter-lbl"><span>0 %</span><span>modéré ≥ ${pct(d.seuil / 2, 0)} · élevé ≥ ${pct(d.seuil, 0)}</span><span>100 %</span></div>
+    <div class="decision"><b>Recommandation :</b> ${esc(d.decision)}</div>
+    <h3 class="mt" style="margin-bottom:10px">Repères historiques</h3>
+    <div class="ref">${reps.map(([lab, r]) => `
+      <div class="ellipsis" title="${esc(lab)}">${esc(lab)} <span class="n">(${nf.format(r.n)} crédits)</span></div><div class="v">${pct(r.taux)}</div>
+      <div class="bar"><i style="width:${(r.taux || 0) / maxRep * 100}%"></i></div>`).join('')}
+      <div>Ensemble du portefeuille</div><div class="v">${pct(d.reperes.global)}</div>
+      <div class="bar"><i style="width:${d.reperes.global / maxRep * 100}%;background:var(--ink-2)"></i></div>
+    </div>
+    <p class="muted" style="font-size:12px;margin:4px 0 0">Outil d'aide à la décision : il ne remplace pas l'analyse du dossier par l'agent de crédit.</p>`;
+  $('history-card').style.display = '';
+  $('history').insertAdjacentHTML('afterbegin', `<tr><td class="type" title="${esc(body.type_credit)}">${esc(body.type_credit)}</td><td>${esc(body.agence)}</td>
+    <td class="num">${nf.format(body.montant)}</td><td class="num">${pct(p)}</td><td>${badge(d.niveau_risque)}</td></tr>`);
+}
+
+/* ── Tableau de bord ── */
+function dashboard() {
+  const d = RAPPORT.donnees;
+  $('kpis').innerHTML =
+    tile('Crédits analysés', nf.format(d.n), `${d.n_agences} agences`) +
+    tile('Crédits à risque', nf.format(d.n_risque), 'retard de plus de 30 jours') +
+    tile('Taux de risque (PAR 30)', pct(d.taux_risque), 'part des crédits en retard > 30 j') +
+    tile('Encours à risque', fcfa(d.encours_risque), `sur ${fcfa(d.encours_total)} d'encours`);
+  const tipT = x => `<b>${esc(x.nom)}</b><br>Taux de risque : ${pct(x.v)}<br><span class="muted">${nf.format(x.n)} crédits</span>`;
+  const toBars = arr => arr.map(x => ({ nom: x.nom, v: x.taux, n: x.n }));
+  const opts = { ref: d.taux_risque, refLabel: `moyenne ${pct(d.taux_risque)}`, tipFn: tipT };
+  const totalRet = d.retards.reduce((s, x) => s + x.n, 0);
+  hbar('c-retards', d.retards.map(x => ({ nom: x.nom, v: x.n })), {
+    fmt: v => nf.format(v), colors: ['var(--q1)', 'var(--q2)', 'var(--q3)', 'var(--q4)', 'var(--q5)', 'var(--q6)'],
+    tipFn: x => `<b>${esc(x.nom)}</b><br>${nf.format(x.v)} crédits (${pct(x.v / totalRet)})`, maxLabel: 130 });
+  hbar('c-famille', toBars(d.par_famille), opts);
+  hbar('c-agence', toBars(d.par_agence), opts);
+  hbar('c-montant', toBars(d.par_montant), opts);
+  hbar('c-secteur', toBars(d.par_secteur), { ...opts, maxLabel: 360 });
+  const c = d.nettoyage;
+  $('nettoyage').innerHTML = [
+    `${c.cible_manquante} ligne sans valeur de RETARD supprimée.`,
+    `Cible binaire : crédit « à risque » si retard &gt; 30 jours (PAR 30), soit ${pct(d.taux_risque)} des crédits : classes déséquilibrées, pondérées à l'entraînement.`,
+    `${c.ages_aberrants} âge aberrant (&lt; 18 ans) traité comme valeur manquante.`,
+    `${nf.format(c.nb_credits_ant_manquants)} valeurs manquantes de « Nombre de crédits antérieurs » (agence MECYD) remplacées par la médiane.`,
+    `Libellés des types de crédit harmonisés (accents, majuscules, espaces), puis création des variables DUREE (court, moyen, long terme) et FAMILLE (trésorerie, personnel, entente PAM/DER…).`,
+    `Montant transformé en logarithme ; catégories rares (&lt; 20 crédits) regroupées ; identifiants (numéros de crédit et de membre) exclus.`,
+  ].map(x => `<li>${x}</li>`).join('');
+}
+
+/* ── Modèle ── */
+function modele() {
+  const f = RAPPORT.final, cmp = RAPPORT.comparaison;
+  $('m-kpis').innerHTML =
+    tile('AUC (jeu de test)', dec(f.auc), 'capacité à classer les crédits (1 = parfait)') +
+    tile('Exactitude', pct(f.accuracy), `sur ${nf.format(f.n_test)} crédits de test`) +
+    tile('Précision', pct(f.precision), 'des alertes sont de vrais risques') +
+    tile('Rappel', pct(f.recall), 'des crédits à risque sont détectés');
+  const COL = ['var(--s1)', 'var(--s2)', 'var(--s3)', 'var(--s4)', 'var(--s5)'];
+  const best = cmp.reduce((a, b) => b.auc > a.auc ? b : a).nom;
+  const roc = cmp.map((m, i) => ({ nom: m.nom, color: COL[i], pts: RAPPORT.roc[m.nom] }));
+  legend('roc-legend', roc);
+  lines('c-roc', roc, { xLab: 'Taux de fausses alertes', yLab: 'Taux de détection', diag: true, xfmt: v => pct(v, 0), tipX: v => pct(v) });
+  $('t-comp').innerHTML = cmp.map((m, i) => `<tr class="${m.nom === best ? 'best' : ''}"><td><i class="key" style="background:${COL[i]}"></i>${esc(m.nom)}</td>
+    <td class="num">${dec(m.auc_cv)}</td><td class="num"><b>${dec(m.auc)}</b></td><td class="num">${pct(m.precision)}</td>
+    <td class="num">${pct(m.recall)}</td><td class="num">${pct(m.f1)}</td></tr>`).join('');
+  $('cm-sub').textContent = `${f.nom}, seuil de décision ${pct(f.seuil, 0)}, ${nf.format(f.n_test)} crédits de test`;
+  $('cm').innerHTML = matrice(f.confusion, f.n_test);
+  const cs = f.courbe_seuil, SC = ['var(--s1)', 'var(--s2)', 'var(--s3)'];
+  const ser = [['Précision', 'precision'], ['Rappel', 'recall'], ['F1', 'f1']].map(([nom, k], i) => ({ nom, color: SC[i], pts: cs.map(p => [p.seuil, p[k]]) }));
+  legend('seuil-legend', ser);
+  lines('c-seuil', ser, { xLab: 'Seuil de décision', yLab: 'Score', xfmt: v => v.toFixed(2).replace('.', ','),
+    vline: { x: f.seuil, label: `seuil retenu ${f.seuil.toFixed(2).replace('.', ',')}` } });
+  const NOMS = { TYPE_CREDIT: 'Type de crédit', FAMILLE: 'Famille de crédit', AGE: 'Âge', MOIS_OUVERTURE: "Mois d'ouverture",
+    LOG_MONTANT: 'Montant', DUREE: 'Durée du crédit', SECTEUR: "Secteur d'activité", NB_CREDITS_ANT: 'Crédits antérieurs', AGENCE: 'Agence' };
+  hbar('c-imp', f.importances.map(x => ({ nom: NOMS[x.nom] || x.nom, v: x.valeur })), { fmt: v => pct(v), maxLabel: 160 });
+  const fu = RAPPORT.fuite;
+  $('fuite').innerHTML = `<div><div class="muted" style="font-size:13px">AUC avec solde et année</div><div class="big" style="color:var(--critical)">${dec(fu.auc_avec_fuite)}</div><div class="muted" style="font-size:12px">trompeur</div></div>
+    <div><div class="muted" style="font-size:13px">AUC du modèle retenu</div><div class="big" style="color:var(--good)">${dec(fu.auc_sans_fuite)}</div><div class="muted" style="font-size:12px">réaliste</div></div>`;
+  const p = f.parametres;
+  $('methode').innerHTML = [
+    `Données : ${nf.format(RAPPORT.donnees.n)} crédits, découpés en 80 % pour l'apprentissage et 20 % pour le test (stratifié).`,
+    `Variables : agence, secteur, type de crédit, durée, famille, âge, crédits antérieurs, montant, mois d'ouverture.`,
+    `Prétraitement : imputation par la médiane, standardisation, encodage one-hot (pipeline scikit-learn).`,
+    `5 modèles comparés en validation croisée à 5 plis ; le Random Forest a été optimisé par GridSearch (${p.n_estimators} arbres, profondeur ${p.max_depth ?? 'illimitée'}, min. ${p.min_samples_leaf} crédits par feuille).`,
+    `Classes déséquilibrées : pondération <code>class_weight='balanced'</code>, puis <b>calibrage isotonique</b> des probabilités : probabilité moyenne prédite ${pct(f.proba_moyenne)} pour un taux réel de ${pct(f.taux_reel_test)} sur le test.`,
+    `Seuil de décision (${f.seuil.toFixed(2).replace('.', ',')}) choisi pour maximiser le F1 sur les prédictions hors-pli des données d'apprentissage : le jeu de test reste intact.`,
+    `Le modèle final est réentraîné sur l'ensemble des données avant le déploiement (entraîné le ${RAPPORT.entraine_le}).`,
+  ].map(x => `<li>${x}</li>`).join('');
+}
+
+/* ── Import de fichier ── */
+const drop = $('drop');
+['dragover', 'dragenter'].forEach(ev => drop.addEventListener(ev, e => { e.preventDefault(); drop.classList.add('over'); }));
+['dragleave', 'drop'].forEach(ev => drop.addEventListener(ev, e => { e.preventDefault(); drop.classList.remove('over'); }));
+drop.addEventListener('drop', e => e.dataTransfer.files[0] && analyser(e.dataTransfer.files[0]));
+$('file').onchange = e => e.target.files[0] && analyser(e.target.files[0]);
+let BATCH = null;
+
+async function analyser(file) {
+  $('import-msg').innerHTML = `<div class="alert info">Analyse de <b>${esc(file.name)}</b> en cours…</div>`;
+  $('import-res').innerHTML = '';
+  const fd = new FormData(); fd.append('file', file);
+  try {
+    const r = await fetch(API + '/predict/batch', { method: 'POST', body: fd });
+    const d = await r.json();
+    if (!r.ok) throw new Error(d.detail || 'Erreur');
+    BATCH = d; $('import-msg').innerHTML = ''; afficherBatch();
+  } catch (err) {
+    $('import-msg').innerHTML = `<div class="alert err">${esc(err.message)}</div>`;
+  } finally { $('file').value = ''; }
+}
+
+function afficherBatch() {
+  const d = BATCH, rep = d.repartition, n = d.n_analyses;
+  const seg = (k, c) => rep[k] ? `<div style="width:${rep[k] / n * 100}%;background:${c}" title="${k} : ${nf.format(rep[k])}"></div>` : '';
+  let html = `<div class="grid g4 mt">
+    ${tile('Crédits analysés', nf.format(n), `${esc(d.fichier)} · ${nf.format(d.n_lignes_fichier)} lignes`)}
+    ${tile('Risque élevé', nf.format(rep['ÉLEVÉ']), pct(rep['ÉLEVÉ'] / n) + ' des crédits')}
+    ${tile('Montant à risque élevé', fcfa(d.montant_risque_eleve), `sur ${fcfa(d.montant_total)} déboursés`)}
+    ${tile('Probabilité moyenne', pct(d.proba_moyenne), 'de retard > 30 jours')}</div>
+    <div class="card mt"><h3>Répartition par niveau de risque</h3>
+      <div class="stack">${seg('ÉLEVÉ', 'var(--critical)')}${seg('MODÉRÉ', 'var(--warning)')}${seg('FAIBLE', 'var(--good)')}</div>
+      <div class="legend" style="margin:0">${['ÉLEVÉ', 'MODÉRÉ', 'FAIBLE'].map(k => `<span>${badge(k)}&nbsp;${nf.format(rep[k])} (${pct(rep[k] / n)})</span>`).join('')}</div>
+    </div>`;
+  if (d.evaluation) {
+    const ev = d.evaluation;
+    html += `<div class="grid g2 mt"><div class="card"><h3>Comparaison avec la réalité</h3><p class="sub">La colonne RETARD est présente : ${nf.format(ev.n_evalues)} crédits évalués</p>
+      ${matrice(ev.confusion, ev.n_evalues)}</div>
+      <div class="card"><h3>Performance sur ce fichier</h3><p class="sub">Taux réel de crédits à risque : ${pct(ev.taux_reel)}</p>
+      <div class="grid g3">${tile('Exactitude', pct(ev.accuracy))}${tile('Précision', pct(ev.precision))}${tile('Rappel', pct(ev.recall))}</div>
+      <div class="alert info">${ic('info')} Si ce fichier a servi à entraîner le modèle, ces scores sont optimistes : le modèle a déjà vu ces crédits. La performance réelle est celle de l'onglet <b>Modèle</b>.</div></div></div>`;
+  }
+  html += `<div class="card mt"><h3>Crédits classés du plus risqué au moins risqué</h3><p class="sub" id="b-count"></p>
+    <div class="toolbar"><input type="search" id="b-search" placeholder="Rechercher (numéro, agence, secteur, type…)">
+      <select id="b-niveau"><option value="">Tous les niveaux</option><option>ÉLEVÉ</option><option>MODÉRÉ</option><option>FAIBLE</option></select>
+      <button class="btn sec" id="b-export">${ic('down')}Exporter en CSV</button></div>
+    <div class="tbl-wrap" style="max-height:560px"><table><thead><tr><th>N° crédit</th><th>Agence</th><th>Secteur</th><th>Type de crédit</th><th class="num">Montant</th><th class="num">Probabilité</th><th>Niveau</th></tr></thead><tbody id="b-body"></tbody></table></div></div>`;
+  $('import-res').innerHTML = html;
+  $('b-search').oninput = $('b-niveau').onchange = tableBatch;
+  $('b-export').onclick = exporter;
+  tableBatch();
+}
+
+function filtrees() {
+  const q = $('b-search').value.trim().toLowerCase(), nv = $('b-niveau').value;
+  return BATCH.lignes.filter(l => (!nv || l[6] === nv) && (!q || [l[0], l[1], l[2], l[3]].join(' ').toLowerCase().includes(q)));
+}
+function tableBatch() {
+  const rows = filtrees(), LIM = 300;
+  $('b-count').textContent = `${nf.format(rows.length)} crédits${rows.length > LIM ? ` · ${LIM} premiers affichés (l'export contient tout)` : ''}`;
+  $('b-body').innerHTML = rows.slice(0, LIM).map(l => `<tr><td>${esc(l[0])}</td><td>${esc(l[1])}</td><td>${esc(l[2])}</td>
+    <td class="type" title="${esc(l[3])}">${esc(l[3])}</td><td class="num">${nf.format(l[4])}</td><td class="num">${pct(l[5])}</td><td>${badge(l[6])}</td></tr>`).join('');
+}
+function exporter() {
+  const cell = v => { const s = String(v); return /[";\n]/.test(s) ? `"${s.replace(/"/g, '""')}"` : s; };
+  const csv = '﻿' + ['N° crédit;Agence;Secteur;Type de crédit;Montant;Probabilité de défaut;Niveau de risque',
+    ...filtrees().map(l => [l[0], l[1], l[2], l[3], l[4], String(l[5]).replace('.', ','), l[6]].map(cell).join(';'))].join('\n');
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(new Blob([csv], { type: 'text/csv;charset=utf-8' }));
+  a.download = BATCH.fichier.replace(/\.[^.]+$/, '') + '_scores.csv'; a.click();
+  URL.revokeObjectURL(a.href);
+}
+
+init();
+</script>
+</body>
+</html>
