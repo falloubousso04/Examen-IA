@@ -205,6 +205,6 @@ def rapport():
     return RAPPORT
 
 
-@app.get('/', include_in_schema=False)
+@app.api_route('/', methods=['GET', 'HEAD'], include_in_schema=False)
 def accueil():
     return FileResponse(DOSSIER / 'index.html')
